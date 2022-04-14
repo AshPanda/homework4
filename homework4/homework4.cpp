@@ -6,7 +6,7 @@
 • для вывода на экран элементов.
 
 2. Дан вектор чисел, требуется выяснить, сколько среди них различных. Постараться использовать максимально быстрый алгоритм.
-3. Реализовать класс Hand, который представляет собой коллекцию карт. 
+3. Реализовать класс Hand, который представляет собой коллекцию карт.
 В классе будет одно поле: вектор указателей карт (удобно использовать вектор, т.к. это по сути динамический массив, а тип его элементов
 должен быть - указатель на объекты класса Card). Также в классе Hand должно быть 3 метода:
 • метод Add, который добавляет в коллекцию карт новую карту, соответственно он принимает в качестве параметра указатель на новую карту
@@ -80,7 +80,7 @@ public:
 			data[idx] = 0;
 		}
 	}
-// homework
+	// homework
 	int removeLast() {
 		int temp = getData(size - 1);
 		resize(size - 1);
@@ -101,124 +101,126 @@ public:
 			for (int j = (size - 1); j > i; j--)
 			{
 				if (data[j - 1] > data[j])
-				{temp = data[j - 1]; 
-					data[j - 1] = data[j]; 
-					data[j] = temp; }
+				{
+					temp = data[j - 1];
+					data[j - 1] = data[j];
+					data[j] = temp;
+				}
 			}
-	}
-	void printArray() {
-		for (int i = 0; i < size; ++i)
-			std::cout << data[i] << " " << std::endl;
-	}
-}
-
-//Task#2 -
-//Task#3
-
-enum rank {
-	ACE = 1,
-	TWO = 2,
-	THREE = 3,
-	FOUR = 4,
-	FIVE = 5,
-	SIX = 6,
-	SEVEN = 7,
-	EIGHT = 8,
-	NINE = 9,
-	TEN = 10,
-	JACK = 10,
-	QUEEN = 10,
-	KING = 10
-};
-enum suit
-{
-	CLUBS,
-	DIAMONDS,
-	HEARTS,
-	SPADES
-};
-class Card
-{
-public:
-
-	Card(rank Rank, suit Suit) : Rank(Rank), Suit(Suit) {
-		isFaceUp = true;
-	}
-	~Card() {}
-	int GetValue() const {
-		return Rank;
-	}
-	void Flip() {
-		isFaceUp = !(isFaceUp);
+		}
+		void printArray() {
+			for (int i = 0; i < size; ++i)
+				std::cout << data[i] << " " << std::endl;
+		}
 	}
 
-protected:
-	rank Rank;
-	suit Suit;
-	bool isFaceUp;
-};
-class Hand
-{
-public:
-	Hand();
-	virtual ~Hand();
-	void Add(Card* pCard) 
+	//Task#2 -
+	//Task#3
+
+	enum rank {
+		ACE = 1,
+		TWO = 2,
+		THREE = 3,
+		FOUR = 4,
+		FIVE = 5,
+		SIX = 6,
+		SEVEN = 7,
+		EIGHT = 8,
+		NINE = 9,
+		TEN = 10,
+		JACK = 10,
+		QUEEN = 10,
+		KING = 10
+	};
+	enum suit
 	{
-		myCards.push_back(pCard);
-	}
-	void Clear() {
-		std::vector<Card*>::iterator i = myCards.begin();
-		for (i = myCards.begin(); i != myCards.begin(); ++i)
-		{
-			delete* i;
-			*i = 0;
+		CLUBS,
+		DIAMONDS,
+		HEARTS,
+		SPADES
+	};
+	class Card
+	{
+	public:
+
+		Card(rank Rank, suit Suit) : Rank(Rank), Suit(Suit) {
+			isFaceUp = true;
 		}
-		myCards.clear();
-	}
-	int GetValue() const {
-		if (myCards.empty())
-		{
-			return 0;
+		~Card() {}
+		int GetValue() const {
+			return Rank;
 		}
-		if (myCards[0]->GetValue() == 0)
-		{
-			return 0;
+		void Flip() {
+			isFaceUp = !(isFaceUp);
 		}
-		int total = 0;
-		std::vector<Card*>::const_iterator i;
-		for (i = myCards.begin(); i != myCards.end(); ++i)
+
+	protected:
+		rank Rank;
+		suit Suit;
+		bool isFaceUp;
+	};
+	class Hand
+	{
+	public:
+		Hand();
+		virtual ~Hand();
+		void Add(Card* pCard)
 		{
-			total += (*i)->GetValue();
+			myCards.push_back(pCard);
 		}
-		bool isAce = false;
-		for (i = myCards.begin(); i != myCards.end(); ++i)
-		{
-			if ((*i)->GetValue() == rank::ACE)
+		void Clear() {
+			std::vector<Card*>::iterator i = myCards.begin();
+			for (i = myCards.begin(); i != myCards.begin(); ++i)
 			{
-				isAce = true;
+				delete* i;
+				*i = 0;
 			}
+			myCards.clear();
 		}
-		if (isAce && total <= 11)
-		{
-			total += 10;
+		int GetValue() const {
+			if (myCards.empty())
+			{
+				return 0;
+			}
+			if (myCards[0]->GetValue() == 0)
+			{
+				return 0;
+			}
+			int total = 0;
+			std::vector<Card*>::const_iterator i;
+			for (i = myCards.begin(); i != myCards.end(); ++i)
+			{
+				total += (*i)->GetValue();
+			}
+			bool isAce = false;
+			for (i = myCards.begin(); i != myCards.end(); ++i)
+			{
+				if ((*i)->GetValue() == rank::ACE)
+				{
+					isAce = true;
+				}
+			}
+			if (isAce && total <= 11)
+			{
+				total += 10;
+			}
+			return total;
 		}
-		return total;
+	protected:
+		std::vector<Card*> myCards;
+	};
+
+	Hand::Hand()
+	{
+		myCards.reserve(5);
 	}
-protected:
-	std::vector<Card*> myCards;
-};
 
-Hand::Hand()
-{
-	myCards.reserve(5);
-}
+	Hand::~Hand()
+	{
+		Clear();
+	}
 
-Hand::~Hand()
-{
-	Clear();
-}
-
-int main()
-{
-	return 0;
-}
+	int main()
+	{
+		return 0;
+	}
